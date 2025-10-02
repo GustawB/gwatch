@@ -17,7 +17,7 @@ For example and test purposes, I prepared binary called ```test_file```, which c
 ```
 # For testing purposes, test_file requires one command-line argument.
 # However, it is not used anywhere, so e.g. here I pass a "something" string.
-gwatch --var xd8 --exec test_file -- something
+./gwatch --var xd8 --exec test_file -- something
 ```
 
 ## Test GWATCH
