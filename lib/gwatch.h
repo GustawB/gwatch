@@ -242,6 +242,7 @@ int gwatch_main(int argc, char *argv[]) {
     }
 
     bool exec_found = false;
+    int exec_idx = -1;
     bool var_found = false;
     int params_idx = -1;
     std::string exec;
@@ -258,6 +259,7 @@ int gwatch_main(int argc, char *argv[]) {
         } else if (exec_found) {
             exec = arg;
             exec_found = false;
+            exec_idx = i;
         } else if (var_found) {
             var = arg;
             var_found = false;
@@ -268,25 +270,10 @@ int gwatch_main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::vector<char*> exec_argv;
-    std::vector<char*> allocated;
-    char* first = strdup(exec.c_str());
-    if (!first) {
-        std::cerr << "Failed to pass cmd args to exec\n";
-        return 1;
-    }
-    exec_argv.push_back(first);
-    allocated.push_back(first);
+    std::vector<char*> exec_argv { argv[exec_idx] };
     if (params_idx != -1) {
         for (int i = params_idx; i < argc; ++i) {
-            char* copy = strdup(argv[i]);
-            if (!copy) {
-                std::cerr << "Failed to pass cmd args to exec\n";
-                for (char* p : allocated) free(p);
-                return 1;
-            }
-            exec_argv.push_back(copy);
-            allocated.push_back(copy);
+            exec_argv.push_back(argv[i]);
         }
     }
     exec_argv.push_back(nullptr);
@@ -313,7 +300,6 @@ int gwatch_main(int argc, char *argv[]) {
             res = trace_loop<int64_t>(pid, var_data.first, var_data.second, var);
         }
 
-        for (char* p : allocated) free(p);
         return res;
     }
 
