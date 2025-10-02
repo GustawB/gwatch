@@ -242,7 +242,6 @@ int gwatch_main(int argc, char *argv[]) {
     }
 
     bool exec_found = false;
-    int exec_idx = -1;
     bool var_found = false;
     int params_idx = -1;
     std::string exec;
@@ -259,7 +258,6 @@ int gwatch_main(int argc, char *argv[]) {
         } else if (exec_found) {
             exec = arg;
             exec_found = false;
-            exec_idx = i;
         } else if (var_found) {
             var = arg;
             var_found = false;
@@ -270,7 +268,7 @@ int gwatch_main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::vector<char*> exec_argv { argv[exec_idx] };
+    std::vector<char*> exec_argv { const_cast<char*>(exec.c_str()) };
     if (params_idx != -1) {
         for (int i = params_idx; i < argc; ++i) {
             exec_argv.push_back(argv[i]);

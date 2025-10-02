@@ -4,11 +4,10 @@
 
 class DebuggerTests : public testing::Test {
 private:
-    std::vector<char*> vectordup(std::vector<std::string> base) {
+    std::vector<char*> vdup(std::vector<std::string> base) {
         std::vector<char*> res;
         for (std::string s : base) {
-            char* copy = strdup(s.c_str());
-            res.push_back(copy);
+            res.push_back(const_cast<char*>(s.c_str()));
         }
         return res;
     }
@@ -37,23 +36,13 @@ protected:
 
 
     DebuggerTests() {
-        argv_missing_var_c = vectordup(argv_missing_var);
-        argv_missing_exec_c = vectordup(argv_missing_exec);
-        argv_missing_test_param_c = vectordup(argv_missing_test_param);
-        argv_valid_4_c = vectordup(argv_valid_4);
-        argv_valid_8_c = vectordup(argv_valid_8);
-        argv_valid_unused_c = vectordup(argv_valid_unused);
+        argv_missing_var_c = vdup(argv_missing_var);
+        argv_missing_exec_c = vdup(argv_missing_exec);
+        argv_missing_test_param_c = vdup(argv_missing_test_param);
+        argv_valid_4_c = vdup(argv_valid_4);
+        argv_valid_8_c = vdup(argv_valid_8);
+        argv_valid_unused_c = vdup(argv_valid_unused);
     }
-
-    ~DebuggerTests() {
-        for (char* p : argv_missing_var_c) free(p);
-        for (char* p : argv_missing_exec_c) free(p);
-        for (char* p : argv_missing_test_param_c) free(p);
-        for (char* p : argv_valid_4_c) free(p);
-        for (char* p : argv_valid_8_c) free(p);
-        for (char* p : argv_valid_unused_c) free(p);
-    }
-
 };
 
 TEST_F(DebuggerTests, test_symbol_finding) {
