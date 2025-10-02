@@ -237,7 +237,7 @@ int trace_loop(int pid, int64_t var_offset, int8_t var_size, std::string symbol_
 
 int gwatch_main(int argc, char *argv[]) {
     if (argc < 5) {
-        std::cout << "Usage: gwatch --var <symbol> --exec <path> [-- arg1 ... argN]\n";
+        std::cout << "Usage: ./gwatch --var <symbol> --exec <path> [-- arg1 ... argN]\n";
         return 1;
     }
 
@@ -264,7 +264,7 @@ int gwatch_main(int argc, char *argv[]) {
         }
     }
     if (exec.empty() || var.empty()) {
-        std::cout << "Usage: gwatch --var <symbol> --exec <path> [-- arg1 ... argN]\n";
+        std::cout << "Usage: ./gwatch --var <symbol> --exec <path> [-- arg1 ... argN]\n";
         return 1;
     }
 
