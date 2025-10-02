@@ -4,9 +4,9 @@
 
 class DebuggerTests : public testing::Test {
 private:
-    std::vector<char*> vdup(std::vector<std::string> base) {
+    std::vector<char*> vdup(std::vector<std::string>& base) {
         std::vector<char*> res;
-        for (std::string s : base) {
+        for (std::string& s : base) {
             res.push_back(const_cast<char*>(s.c_str()));
         }
         return res;
